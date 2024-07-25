@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View { // ContentView behaves like a View
+    let emojis = ["👻", "🎃", "🕷️", "🕷️", "🕷️",  "😈"]
+
     var body: some View {  //computed property
         HStack {
-            CardView(isFacedUp: true)
-            CardView()
-            CardView()
-            CardView()
+            ForEach(emojis.indices, id: \.self) { index in
+                CardView(content:  emojis[index])
+            }
         }
         .foregroundColor(.orange)
         .padding()
@@ -22,15 +23,16 @@ struct ContentView: View { // ContentView behaves like a View
 
 
 struct CardView: View {
-    @State var isFacedUp = false // variable with initial value false
-    
+    let content: String // needs to be a let because there is not default
+    @State var isFacedUp = true // variable with initial value false
+        
     var body: some View {
         ZStack {
             let base = RoundedRectangle(cornerRadius: 12)
             if isFacedUp {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text("👻")
+                Text(content)
                     .font(.largeTitle)
             } else {
                 base.fill()
